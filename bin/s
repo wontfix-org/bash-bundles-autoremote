@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+known_autoremote="$HOME/.known_autoremote"
+host=$1
+
+shift
+
+[ -f $known_autoremote ] || touch $known_autoremote
+
+if [ -f $HOME/.noautoremote ] ; then
+	echo "found $HOME/.noautoremote, not copying files"
+else
+	if ! grep -qE "^$host$" $known_autoremote ; then
+		if ! ssh $host "[ -f .bash_profile ] && grep -q NOAUTOREMOTE .bashrc" ; then
+			sftp -b <(echo -e "put $HOME/.autoremote/.??*\nput $HOME/.autoremote/*") $host
+		fi
+		echo $host >> $known_autoremote
+	fi
+fi
+
+exec ssh $host "$@"
+
+

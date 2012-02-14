@@ -1,0 +1,20 @@
+[ -f ~/.bashrc ] && source ~/.bashrc
+
+# display user@host:/path in title, append to bash_history on every command                                                                                                                                                                                                                                                   
+case $TERM in
+    xterm*|rxvt|Eterm|eterm|rxvt-unicode)
+        PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007" ; history -a'
+        ;;
+    screen)
+        PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\" ; echo -ne "\033k${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\" ; history -a'
+    ;;
+esac
+
+PS1="\u@\h:\w> "
+PATH="$HOME/bin/:$PATH"
+shopt -s checkwinsize
+
+alias ss='sudo su -'
+alias s='ssh'
+alias ll='ls -lh'
+alias la='ll -a'
