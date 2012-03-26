@@ -1,1 +1,10 @@
+#!/usr/bin/env bash
 
+function sf() {
+	local host=${1:-need a hostname to flush}
+    ssh-keygen -R $host
+    ssh-keygen -R $(getent hosts $host | awk '{print $1 ; exit(0)}')
+    sed -i "/$host/d" ~/.known_autoremote
+}
+
+complete -W "$(echo $(uniq $HOME/.known_autoremote ))" s
