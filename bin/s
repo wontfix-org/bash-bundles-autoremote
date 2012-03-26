@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
 known_autoremote="$HOME/.known_autoremote"
-host=$1
+host=${1:?need a hostname to connect to}
 
 shift
+
+host=$(getent hosts $host)
+host=${host##*  }
 
 [ -f $known_autoremote ] || touch $known_autoremote
 
