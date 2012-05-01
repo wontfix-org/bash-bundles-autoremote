@@ -5,6 +5,8 @@ host=${1:?need a hostname to connect to}
 
 shift
 
+# always resolve to fqdns, so we only display hosts once
+# when tab-completing on the known_autoremote file
 host=$(getent hosts $host)
 host=${host##*  }
 
