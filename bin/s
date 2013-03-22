@@ -7,9 +7,8 @@ shift
 
 # always resolve to fqdns, so we only display hosts once
 # when tab-completing on the known_autoremote file
-host=$(getent hosts $host)
-host=${host##*  }
-
+#host=$(getent hosts $host)
+#host=${host##*  }
 [ -f $known_autoremote ] || touch $known_autoremote
 
 if [ -f $HOME/.noautoremote ] ; then
